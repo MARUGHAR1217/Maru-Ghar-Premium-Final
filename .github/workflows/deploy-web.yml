@@ -8,8 +8,12 @@ on:
       - 'index.html'
       - 'admin.html'
       - 'firebase-config.js'
+      - 'maru-ghar-backend.js'
       - 'manifest.webmanifest'
-      - 'assets/**'
+      - 'maru-ghar-logo.svg'
+      - 'icon.png'
+      - 'splash.png'
+      - 'maru-ghar-approved-app-icon.png'
       - '.github/workflows/deploy-web.yml'
 
 permissions:
@@ -27,23 +31,47 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Prepare website files
         run: |
           set -eu
+
           mkdir -p _site/assets
+
           cp index.html admin.html firebase-config.js manifest.webmanifest _site/
-          cp -R assets/. _site/assets/
+          cp maru-ghar-backend.js _site/assets/
+
+          if [ -f maru-ghar-logo.svg ]; then
+            cp maru-ghar-logo.svg _site/
+          fi
+
+          if [ -f icon.png ]; then
+            cp icon.png _site/
+          fi
+
+          if [ -f splash.png ]; then
+            cp splash.png _site/
+          fi
+
+          if [ -f maru-ghar-approved-app-icon.png ]; then
+            cp maru-ghar-approved-app-icon.png _site/
+          fi
+
           test -s _site/index.html
           test -s _site/admin.html
           test -s _site/firebase-config.js
+          test -s _site/manifest.webmanifest
           test -s _site/assets/maru-ghar-backend.js
+
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
