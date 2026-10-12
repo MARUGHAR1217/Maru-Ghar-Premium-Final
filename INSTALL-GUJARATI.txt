@@ -1,0 +1,15 @@
+MARU GHAR — સુધારેલી મુખ્ય ફાઇલો
+
+આ પેકમાં:
+1) index.html — સંપૂર્ણ responsive Gujarati homepage અને listing form
+2) maru-ghar-backend.js — Firebase/Cloudinary જોડાણ માટે root-path સુધારેલું backend
+
+GitHub repo માં બંને ફાઇલો ROOT માં છે; એટલે backend import './firebase-config.js' અને script src './maru-ghar-backend.js' છે.
+
+મહત્ત્વની નોંધ:
+- આ પેકમાં firebase-config.js, logo, icon, admin.html, Firestore Rules અથવા GitHub Actions workflow ને બદલવામાં આવ્યા નથી.
+- તમારી હાલની firebase-config.js ફાઇલ root માં જ રહેવી જોઈએ.
+- Cloudinary unsigned preset અને Firebase Authentication/Firestore Rules વાસ્તવમાં સક્રિય છે કે નહીં તે deployment પછી ચકાસવું પડશે.
+- Firebase query-க்கு createdAt descending composite index ആവശ്യ પડે તો Firestore માં index બનાવો.
+- GitHub માં હાલની index.html અને maru-ghar-backend.js નો backup રાખીને જ આ બે ફાઇલો replace કરો.
+- આ ફાઇલો અહીં syntax/logic દૃષ્ટિએ તૈયાર કરવામાં આવી છે; તમારા live Firebase project પર deployment test કર્યાનો દાવો નથી.
