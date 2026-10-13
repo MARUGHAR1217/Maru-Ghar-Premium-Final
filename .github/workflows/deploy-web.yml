@@ -14,6 +14,7 @@ on:
       - 'icon.png'
       - 'splash.png'
       - 'maru-ghar-approved-app-icon.png'
+      - 'assets/**'
       - '.github/workflows/deploy-web.yml'
 
 permissions:
@@ -30,6 +31,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
 
     steps:
@@ -42,11 +44,20 @@ jobs:
 
           mkdir -p _site/assets
 
-          cp index.html admin.html firebase-config.js manifest.webmanifest _site/
+          cp index.html _site/
+          cp admin.html _site/
+          cp firebase-config.js _site/
+          cp manifest.webmanifest _site/
+
           cp maru-ghar-backend.js _site/assets/
 
+          # Keep the selected logo available at both expected paths.
           if [ -f maru-ghar-logo.svg ]; then
-            cp maru-ghar-logo.svg _site/
+            cp maru-ghar-logo.svg _site/maru-ghar-logo.svg
+            cp maru-ghar-logo.svg _site/assets/maru-ghar-logo.svg
+          else
+            echo "ERROR: maru-ghar-logo.svg is missing from repository root."
+            exit 1
           fi
 
           if [ -f icon.png ]; then
@@ -58,20 +69,4 @@ jobs:
           fi
 
           if [ -f maru-ghar-approved-app-icon.png ]; then
-            cp maru-ghar-approved-app-icon.png _site/
-          fi
-
-          test -s _site/index.html
-          test -s _site/admin.html
-          test -s _site/firebase-config.js
-          test -s _site/manifest.webmanifest
-          test -s _site/assets/maru-ghar-backend.js
-
-      - name: Upload website artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+            cp maru-
